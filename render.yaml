@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: sports-event-planner
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
+    disk:
+      name: sports-event-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: SPORTS_DATABASE_PATH
+        value: /var/data/sports_event.db
+      - key: SPORTS_ADMIN_EMAIL
+        sync: false
+      - key: SPORTS_ADMIN_PASSWORD
+        sync: false
+      - key: SPORTS_ADMIN_NAME
+        sync: false
