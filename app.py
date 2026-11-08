@@ -13,6 +13,11 @@ from datetime import date, datetime, time, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 
+APP_BASE_URL = os.getenv(
+    "APP_BASE_URL",
+    "https://smart-sports-event-system-bkdq4n4rdxpgw8xf8vrvjx.streamlit.app",
+).strip().rstrip("/")
+
 import qrcode
 import reportlab
 import streamlit as st
@@ -1273,6 +1278,7 @@ elif menu == "QR Event Registration":
             qr_student_name.strip(),
             qr_emis_number.strip(),
             qr_class_section.strip(),
+            base_url=APP_BASE_URL,
         )
         qr_image = create_qr(registration_url)
         st.image(qr_image, caption="Scan to open the prefilled registration form")
@@ -1285,7 +1291,7 @@ elif menu == "QR Event Registration":
     else:
         st.info("Enter the student's name, class/section, and EMIS number to create the QR.")
 
-    registration_url = get_registration_url()
+    registration_url = get_registration_url(base_url=APP_BASE_URL)
     st.caption(f"Registration link: {registration_url}")
     st.warning(
         "This QR contains the student's name, class/section, and EMIS number in its link. "
